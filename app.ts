@@ -1,11 +1,10 @@
 import createError from "http-errors";
-// Fast, unopinionated, minimalist web framework for node.
 import express from "express";
 import path from "path";
-// Parse Cookie header and populate req.cookies with an object keyed by the cookie names
 import cookieParser from "cookie-parser";
-// HTTP request logger middleware for node.js
 import logger from "morgan";
+import dotenv from "dotenv";
+import mongoose from "mongoose";
 
 import indexRouter from "./routes/index";
 import usersRouter from "./routes/users";
@@ -14,6 +13,17 @@ export interface HttpException {
   status: number;
   message: string;
 }
+
+// Setup MongoDB
+dotenv.config();
+mongoose.set("useFindAndModify", false);
+mongoose.connect(
+  process.env.DB_CONNECT || "",
+  { useNewUrlParser: true },
+  () => {
+    console.log("Connected to db!");
+  }
+);
 
 const app = express();
 
@@ -24,7 +34,7 @@ app.set("view engine", "ejs");
 // express middleware
 app.use(logger("dev"));
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
