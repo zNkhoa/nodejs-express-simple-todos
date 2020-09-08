@@ -43,12 +43,14 @@ router
     });
   });
 
-router.route("/remove/:id").get((req: express.Request, res: express.Response) => {
-  const id = req.params.id;
-  TodoTask.findByIdAndRemove(id, (err) => {
-    if (err) return res.status(500).send(err);
-    res.redirect("/");
+router
+  .route("/remove/:id")
+  .get((req: express.Request, res: express.Response) => {
+    const id = req.params.id;
+    TodoTask.findByIdAndRemove(id, (err) => {
+      if (err) return res.status(500).send(err);
+      res.redirect("/");
+    });
   });
-});
 
 export default router;
