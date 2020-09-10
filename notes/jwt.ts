@@ -25,7 +25,7 @@ function myJWT() {
   }).unless({
     path: [
       // public routes that don't require authentication
-      "/register",
+      "/api/v1/users/register",
       "/login",
       "/landing-page",
     ],

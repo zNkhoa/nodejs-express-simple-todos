@@ -1,15 +1,17 @@
-import mongoose, { Document } from "mongoose";
+import mongoose, { Document, HookNextFunction } from "mongoose";
+import { NextFunction } from "express";
 
 interface IUser extends Document {
   username: string;
   hash: string;
   firstName: string;
   lastName: string;
-  createdDate: Date;
+  createdDate: number;
+  updatedAt: number;
 }
 
 // define schema
-const userSchema = new mongoose.Schema({
+const userSchema = new mongoose.Schema<IUser>({
   username: {
     type: String,
     unique: true,
@@ -31,6 +33,10 @@ const userSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  updatedAt: {
+    type: Date,
+    default: Date.now,
+  },
 });
 
 userSchema.set("toJSON", {
@@ -40,6 +46,11 @@ userSchema.set("toJSON", {
     delete ret._id;
     delete ret.hash;
   },
+});
+
+userSchema.pre<IUser>("save", function preSave(next) {
+  this.updatedAt = Date.now();
+  next();
 });
 
 // compile schema to model
