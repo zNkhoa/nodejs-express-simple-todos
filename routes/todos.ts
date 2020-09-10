@@ -1,6 +1,5 @@
 import express from "express";
 import TodoTask from "../models/todo";
-import app from "../app";
 
 const router = express.Router();
 
@@ -20,7 +19,7 @@ router.post("/", async function (req: express.Request, res: express.Response) {
       res.render("todo.ejs", { todoTasks: tasks || [] });
     });
   } catch (error) {
-    res.redirect("/");
+    res.redirect("/todos");
   }
 });
 
@@ -39,7 +38,7 @@ router
     const id = req.params.id;
     TodoTask.findByIdAndUpdate(id, { content: req.body.content }, (err) => {
       if (err) return res.status(500).send(err);
-      res.redirect("/");
+      res.redirect("/todos");
     });
   });
 
@@ -49,7 +48,7 @@ router
     const id = req.params.id;
     TodoTask.findByIdAndRemove(id, (err) => {
       if (err) return res.status(500).send(err);
-      res.redirect("/");
+      res.redirect("/todos");
     });
   });
 
