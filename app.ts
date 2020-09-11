@@ -19,15 +19,15 @@ export interface HttpException {
 const app = express();
 
 // view engine setup
-app.set("views", "./views");
-app.set("view engine", "ejs");
+app.engine(".html", require("ejs").__express);
+app.set("views", "views");
+app.use(express.static("public"));
 
 // express middleware
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, "public")));
 // enable cors for all origins
 app.use(cors());
 // use JWT auth to secure the api

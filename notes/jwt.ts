@@ -19,15 +19,13 @@ function myJWT() {
     secret: secretKey,
     algorithms: ["HS256"],
     isRevoked: () => {
-        // revoke user's toke if user no longer existed
-        // ...
-    }
+      // revoke user's toke if user no longer existed
+      // ...
+    },
   }).unless({
     path: [
       // public routes that don't require authentication
       "/api/v1/users/register",
-      "/login",
-      "/landing-page",
     ],
   });
 }

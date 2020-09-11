@@ -15,6 +15,7 @@ export function jwt() {
       "/api/v1/users/authenticate",
       "/api/v1/users/register",
       "/todos",
+      "/todos/*",
     ],
   });
 }
