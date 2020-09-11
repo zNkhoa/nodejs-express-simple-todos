@@ -1,5 +1,4 @@
 import express, { NextFunction } from "express";
-import path from "path";
 import cookieParser from "cookie-parser";
 import logger from "morgan";
 import cors from "cors";
@@ -8,7 +7,6 @@ import errorHandler from "./helpers/error-handler";
 import todoRouter from "./routes/todos";
 import userRouter from "./controllers/users.controller";
 import { jwt } from "./helpers/jwt";
-import { HttpError } from "http-errors";
 import { AppError } from "./helpers/errors";
 
 export interface HttpException {
@@ -33,7 +31,7 @@ app.use(cors());
 // use JWT auth to secure the api
 app.use([
   jwt(),
-  function (err, req, res, next) {
+  function (err, _req, _res, next) {
     if (err) {
       const err = new AppError(401, 401, "Invalid token");
       next({ ...err });
@@ -43,15 +41,16 @@ app.use([
 // route handler middleware
 app.use("/todos", todoRouter);
 app.use("/api/v1/users", userRouter);
+app.use("/api/v1/habits");
 
 // handle error middleware
 app.use(errorHandler);
 
 // handle 404 error
 app.use(function (
-  req: express.Request,
+  _req: express.Request,
   res: express.Response,
-  next: NextFunction
+  _next: NextFunction
 ) {
   res.status(404).json({ code: 404, message: "Not Found" });
 });

@@ -1,5 +1,4 @@
-import mongoose, { Document, HookNextFunction } from "mongoose";
-import { NextFunction } from "express";
+import mongoose, { Document } from "mongoose";
 
 interface IUser extends Document {
   username: string;
