@@ -4,8 +4,11 @@ import logger from "morgan";
 import cors from "cors";
 
 import errorHandler from "./helpers/error-handler";
+
 import todoRouter from "./routes/todos";
 import userRouter from "./controllers/users.controller";
+import habitRouter from "./controllers/habits.controller";
+
 import { jwt } from "./helpers/jwt";
 import { AppError } from "./helpers/errors";
 
@@ -41,7 +44,7 @@ app.use([
 // route handler middleware
 app.use("/todos", todoRouter);
 app.use("/api/v1/users", userRouter);
-app.use("/api/v1/habits");
+app.use("/api/v1/habits", habitRouter);
 
 // handle error middleware
 app.use(errorHandler);

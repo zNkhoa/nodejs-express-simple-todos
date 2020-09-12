@@ -1,6 +1,6 @@
 import mongoose, { Document } from "mongoose";
 
-interface IUser extends Document {
+export interface IUser extends Document {
   username: string;
   hash: string;
   firstName: string;
@@ -53,4 +53,4 @@ userSchema.pre<IUser>("save", function preSave(next) {
 });
 
 // compile schema to model
-export default mongoose.model<IUser>("UserTask", userSchema);
+export default mongoose.model<IUser>("User", userSchema);
